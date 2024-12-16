@@ -1,0 +1,8 @@
+front
+docker build -t softy-pinko-frontend .
+docker run -p 9000:9000 softy-pinko-frontend
+
+
+back
+docker build -t softy-pinko-backend .
+docker run -p 5252:5252 softy-pinko-backend

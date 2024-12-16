@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    expose:
+      - "9000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    expose:
+      - "5252"
+
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: proxy-server
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+networks:
+# Cela permet aux services de communiquer entre eux 
+#	dans un réseau Docker privé (app-network)
+  app-network:
+    driver: bridge
